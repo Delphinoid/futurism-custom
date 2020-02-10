@@ -94,7 +94,7 @@
 		// apply damage
 		takeDamage(target, targetDamage);
 
-		if(target.card.health > 0 && options.counterAttack) {
+		if((target.card.health > 0 || target.card.abilities.indexOf('dbth') >= 0) && options.counterAttack) {
 			takeDamage(src, srcDamage);
 		}
 		else {
@@ -141,7 +141,7 @@
 		attk: {
 			restrict: [
 				[filters.owned],
-				[filters.enemy, filters.full, filters.front, filters.hero]
+				[filters.enemy, filters.full, filters.front, filters.hero, filters.stealth]
 			],
 			use: function(src, target) {
 				var result = attack(src, target, {counterAttack: true});
@@ -187,6 +187,9 @@
 						}
 					});
 				}
+				if(target2.card.abilities.indexOf('stlh') >= 0){
+					target2.card.stealth = 1;
+				}
 			}
 		},
 
@@ -221,7 +224,7 @@
 		siph: {
 			restrict: [
 				[filters.owned],
-				[filters.enemy, filters.full, filters.front, filters.hero]
+				[filters.enemy, filters.full, filters.front, filters.hero, filters.stealth]
 			],
 			use: function(src, target) {
 				var result = attack(src, target, {counterAttack: true});
@@ -241,11 +244,14 @@
 		heal: {
 			restrict: [
 				[filters.owned],
-				[filters.friend, filters.full]
+				[filters.friend, filters.full, filters.stealth]
 			],
 			use: function(src, target) {
-				target.card.health++;
-				target.card.poison = 0;
+				if(!target.card.poison){
+					target.card.health++;
+				}else{
+					target.card.poison = 0;
+				}
 				return {newHealth: target.card.health};
 			}
 		},
@@ -281,7 +287,7 @@
 		abom: {
 			restrict: [
 				[filters.owned],
-				[filters.friend, filters.full, filters.notSelf]
+				[filters.friend, filters.full, filters.notSelf, filters.stealth]
 			],
 			use: function(src, target) {
 				var tCard = target.card;
@@ -301,7 +307,7 @@
 		peap: {
 			restrict: [
 				[filters.owned],
-				[filters.enemy, filters.full, filters.front]
+				[filters.enemy, filters.full, filters.front, filters.stealth]
 			],
 			use: function(src, target) {
                 target.card.peaceful = 1;
@@ -395,7 +401,7 @@
 		prci: {
 			restrict: [
 				[filters.owned],
-				[filters.enemy, filters.full, filters.hero]
+				[filters.enemy, filters.full, filters.hero, filters.stealth]
 			],
 			use: function(src, target) {
 				var result = attack(src, target, {counterAttack: true});
@@ -410,7 +416,7 @@
 		rech: {
 			restrict: [
 				[filters.owned],
-				[filters.friend, filters.full, filters.notSelf, filters.machine]
+				[filters.friend, filters.full, filters.notSelf, filters.machine, filters.stealth]
 			],
 			use: function(src, target) {
 				target.card.moves++;
@@ -424,7 +430,7 @@
 		netw: {
 			restrict: [
 				[filters.owned],
-				[filters.friend, filters.full, filters.notSelf, filters.machine]
+				[filters.friend, filters.full, filters.notSelf, filters.machine, filters.stealth]
 			],
 			use: function(src, target) {
 				src.card.abilities = _.uniq(src.card.abilities.concat(target.card.abilities));
@@ -458,7 +464,7 @@
 		tlpt: {
 			restrict: [
 				[filters.owned],
-				[filters.full, filters.friend],
+				[filters.full, filters.friend, filters.stealth],
 				[filters.empty, filters.friend]
 			],
 			use: function(src, target1, target2) {
@@ -475,7 +481,7 @@
 		sduc: {
 			restrict: [
 				[filters.owned],
-				[filters.enemy, filters.full, filters.front, filters.weak],
+				[filters.enemy, filters.full, filters.front, filters.weak, filters.stealth],
 				[filters.friend, filters.empty]
 			],
 			use: function(src, target, target2) {
@@ -493,7 +499,7 @@
 		assn: {
 			restrict: [
 				[filters.owned],
-				[filters.enemy, filters.full, filters.front, filters.hero]
+				[filters.enemy, filters.full, filters.front, filters.hero, filters.stealth]
 			],
 			use: function(src, target) {
 				var result = attack(src, target, {counterAttack: false});
@@ -530,7 +536,7 @@
 		posn: {
 			restrict: [
 				[filters.owned],
-				[filters.enemy, filters.full, filters.front]
+				[filters.enemy, filters.full, filters.front, filters.stealth]
 			],
 			use: function(src, target) {
 				if(Math.random() > 0.5) {
@@ -551,7 +557,7 @@
 		bagm: {
 			restrict: [
 				[filters.owned],
-				[filters.enemy, filters.full, filters.front]
+				[filters.enemy, filters.full, filters.front, filters.stealth]
 			],
 			use: function(src, target) {
 				var card = target.card;
@@ -577,7 +583,7 @@
 		frvt: {
 			restrict: [
 				[filters.owned],
-				[filters.enemy, filters.full, filters.front, filters.hero]
+				[filters.enemy, filters.full, filters.front, filters.hero, filters.stealth]
 			],
 			use: function(src, target) {
 				var result = attack(src, target, {counterAttack: true, alwaysHit: true});
@@ -592,7 +598,7 @@
 		male: {
 			restrict: [
 				[filters.owned],
-				[filters.friend, filters.female, filters.hasMoves],
+				[filters.friend, filters.female, filters.hasMoves, filters.stealth],
 				[filters.owned, filters.empty]
 			],
 			use: function(src, target1, target2) {
@@ -607,7 +613,7 @@
 		feml: {
 			restrict: [
 				[filters.owned],
-				[filters.friend, filters.male, filters.hasMoves],
+				[filters.friend, filters.male, filters.hasMoves, filters.stealth],
 				[filters.owned, filters.empty]
 			],
 			use: function(src, target1, target2) {

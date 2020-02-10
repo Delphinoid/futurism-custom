@@ -114,6 +114,13 @@
 	};
 
 
+	filters.stealth = function(targets, me) {
+		return _.filter(targets, function(target) {
+			return !target.card || target.card.stealth == undefined || target.card.stealth == 0;
+		});
+	};
+
+
 	filters.front = function(targets, me, board) {
 
 		return _.filter(targets, function(target) {
@@ -125,7 +132,8 @@
 			}
 
 			while(row >= 0) {
-				if(board.target(target.player._id, column, row).card) {
+				var card = board.target(target.player._id, column, row).card;
+				if(card && (card.stealth == undefined || card.stealth == 0)) {
 					return false;
 				}
 				row--;

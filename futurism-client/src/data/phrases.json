@@ -652,6 +652,14 @@
 				"hu": "Az összes kártyáid elnyerik a mozgás képességet."
 			}
 		},
+		"stlh": {
+			"name": {
+				"en": "stealth"
+			},
+			"desc": {
+				"en": "This card cannot be targeted during its first turn on the board."
+			}
+		},
 		"bagm": {
 			"name": {
 				"en": "bag 'em",
@@ -875,6 +883,22 @@
 				"pl": "Zaatakuj przeciwnika bez pudłowania. Przeciwnik skontruje.",
 				"ne": "Val een tegenstander aan zonder te missen. De tegenstander valt terug aan.",
 				"hu": "Támadj meg egy ellenséget tévesztés nélkül. A célpontod vissza fog támadni."
+			}
+		},
+		"schn": {
+			"name": {
+				"en": "second chance"
+			},
+			"desc": {
+				"en": "Survive a single fatal attack with 1 health."
+			}
+		},
+		"dbth": {
+			"name": {
+				"en": "dying breath"
+			},
+			"desc": {
+				"en": "Death does not stop this card from counter-attacking."
 			}
 		}
 	},
